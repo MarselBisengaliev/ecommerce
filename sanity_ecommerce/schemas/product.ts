@@ -1,6 +1,6 @@
-import { defineType } from 'sanity'
+import {defineType} from 'sanity'
 
-export const product = defineType({ 
+export const product = defineType({
   name: 'product',
   title: 'Product',
   type: 'document',

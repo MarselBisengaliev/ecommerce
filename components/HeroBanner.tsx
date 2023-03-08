@@ -5,17 +5,22 @@ import { urlFor } from "../lib/client";
 import Image from "next/image";
 
 type Props = {
-  heroBanner: BannerType
+  heroBanner: BannerType;
 };
 
-const HeroBanner = ({heroBanner}: Props) => {
+const HeroBanner = ({ heroBanner }: Props) => {
   return (
     <div className="hero-banner-container">
       <div>
         <p className="beats-solo">{heroBanner.smallText}</p>
         <h3>{heroBanner.midText}</h3>
         <h1>{heroBanner.largeText1}</h1>
-        <Image fill src={urlFor(heroBanner.image).url()} alt="headphones" className="hero-banner-image" />
+        <Image
+          fill
+          src={urlFor(heroBanner.image).url()}
+          alt="headphones"
+          className="hero-banner-image"
+        />
 
         <div>
           <Link href={`/products/${heroBanner.product}`}>
