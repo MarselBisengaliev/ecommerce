@@ -1,23 +1,29 @@
 import Link from "next/link";
 import React from "react";
 
-type Props = {};
+import { urlFor } from "../lib/client";
+import Image from "next/image";
 
-const HeroBanner = (props: Props) => {
+type Props = {
+  heroBanner: BannerType
+};
+
+const HeroBanner = ({heroBanner}: Props) => {
   return (
     <div className="hero-banner-container">
       <div>
-        <p className="beats-solo">SMALL TEXT</p>
-        <h3>MID TEXT</h3>
-        <img src="" alt="headphones" className="hero-banner-image" />
+        <p className="beats-solo">{heroBanner.smallText}</p>
+        <h3>{heroBanner.midText}</h3>
+        <h1>{heroBanner.largeText1}</h1>
+        <Image fill src={urlFor(heroBanner.image).url()} alt="headphones" className="hero-banner-image" />
 
         <div>
-          <Link href="/products/ID">
-            <button type="button">BUTTON TEXT</button>
+          <Link href={`/products/${heroBanner.product}`}>
+            <button type="button">{heroBanner.buttonText}</button>
           </Link>
           <div className="desc">
             <h5>Description</h5>
-            <p>DESCRIPTION</p>
+            <p>{heroBanner.desc}</p>
           </div>
         </div>
       </div>
