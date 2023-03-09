@@ -11,7 +11,7 @@ type Props = {
 const Product = ({ product: { image, name, slug, price } }: Props) => {
   return (
     <div>
-      <Link href={`/product/${slug.current}`}>
+      <Link href={`/product/${slug.current}`} >
         <div className="product-card">
           <Image
             width={250}

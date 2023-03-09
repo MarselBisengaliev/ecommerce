@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  AiOutlinePlus,
-  AiOutlineMinus,
   AiFillStar,
+  AiOutlineMinus,
+  AiOutlinePlus,
   AiOutlineStar,
 } from "react-icons/ai";
 
-import { client, urlFor } from "../../lib/client";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { Product } from "../../components";
+import { useStateContext } from '../../context/StateContext';
+import { client, urlFor } from "../../lib/client";
+
 
 type Props = {
   product: ProductType;
@@ -17,8 +20,14 @@ type Props = {
 };
 
 const ProductDetails = ({ product, products }: Props) => {
+  const [index, setIndex] = useState<number>(0);
+  const { decQty, incQty, qty, onAdd } = useStateContext();
   const { image, name, details, price } = product;
-  const [index, setIndex] = useState(0);
+  const router = useRouter();
+
+  useEffect(() => {
+    setIndex(0);
+  }, [router.query.slug]);
 
   return (
     <div>
@@ -28,7 +37,7 @@ const ProductDetails = ({ product, products }: Props) => {
             <Image
               width="400"
               height="400"
-              src={urlFor(image && image[index]).url()}
+              src={urlFor(image[image[index] ? index : 0]).url()}
               alt="image"
               className="product-detail-image"
             />
@@ -42,7 +51,9 @@ const ProductDetails = ({ product, products }: Props) => {
                 src={urlFor(item).url()}
                 alt="small-image"
                 onMouseEnter={() => setIndex(i)}
-                className={i === index ? "small-image selected-image" : "small-image"}
+                className={
+                  i === index ? "small-image selected-image" : "small-image"
+                }
               />
             ))}
           </div>
@@ -67,20 +78,24 @@ const ProductDetails = ({ product, products }: Props) => {
           <div className="quantity">
             <h3>Quantity:</h3>
             <p className="quantity-desc">
-              <span className="minus" onClick={() => {}}>
+              <span className="minus" onClick={decQty}>
                 <AiOutlineMinus />
               </span>
               <span className="num" onClick={() => {}}>
-                0
+                {qty}
               </span>
-              <span className="plus" onClick={() => {}}>
+              <span className="plus" onClick={incQty}>
                 <AiOutlinePlus />
               </span>
             </p>
           </div>
           <div className="buttons">
-            <button type="button" className="add-to-cart" onClick={() => {}}>Add to Cart</button>
-            <button type="button" className="buy-now" onClick={() => {}}>Buy Now</button>
+            <button type="button" className="add-to-cart" onClick={() => onAdd(product, qty)}>
+              Add to Cart
+            </button>
+            <button type="button" className="buy-now" onClick={() => {}}>
+              Buy Now
+            </button>
           </div>
         </div>
       </div>
@@ -90,7 +105,7 @@ const ProductDetails = ({ product, products }: Props) => {
         <div className="marquee">
           <div className="maylike-products-container track">
             {products.map((item) => (
-              <Product key={item._id} product={item}/>
+              <Product key={item._id} product={item} />
             ))}
           </div>
         </div>

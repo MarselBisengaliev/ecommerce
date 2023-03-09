@@ -12,6 +12,7 @@ interface ProductType extends ContentType {
   name: string;
   price: number;
   slug: { _type: string; current: string };
+  quantity?: number;
 }
 
 interface BannerType extends ContentType {

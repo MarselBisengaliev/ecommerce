@@ -24,7 +24,7 @@ const HeroBanner = ({ heroBanner }: Props) => {
         />
 
         <div>
-          <Link href={`/products/${heroBanner.product}`}>
+          <Link href={`/products/${heroBanner.product}`} >
             <button type="button">{heroBanner.buttonText}</button>
           </Link>
           <div className="desc">
